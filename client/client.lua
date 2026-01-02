@@ -4,13 +4,11 @@ local pointA = nil
 local pointB = nil
 local isPointASet = false
 local CONFIG_MAXDISTANCE = 100
--- Colores
 local colorLine = {0, 255, 0}
 local colorText = {255, 255, 255} 
 
 local function getRaycastCoord()
     local hit, entityHit, endCoords, surfaceNormal, materialHash = lib.raycast.fromCamera(511,4,CONFIG_MAXDISTANCE)
-
     return hit and endCoords or GetGameplayCamCoord() + (GetGameplayCamRot(2) * vector3(0, 0, 100))
 end
 
@@ -36,7 +34,6 @@ local function Draw3DText(coords, text, distance)
     end
 end
 
--- 1. Activate / Deactivate ruler
 lib.addKey('toggleRuler', {
     description = 'Activate / Deactivate Ruler',
     defaultKey = 'F6',
@@ -127,11 +124,8 @@ CreateThread(function()
 
             if pointA and targetB then
                 distance = #(pointA - targetB)
-                
                 DrawLine(pointA.x, pointA.y, pointA.z, targetB.x, targetB.y, targetB.z, colorLine[1], colorLine[2], colorLine[3], 255)
-                
                 local midPoint = (pointA + targetB) / 2
-                
                 local text = string.format("%.2f Metros", distance)
                 Draw3DText(midPoint, text, distance)
             end
@@ -154,4 +148,5 @@ CreateThread(function()
 
         Wait(wait)
     end
+
 end)
